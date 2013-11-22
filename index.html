@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <script src="js/three.min.js"></script>
+  </head>
+
+  <body>
+<script>
+
+    var camera, scene, renderer;
+    var geometry, material, sphere;
+    var geomCube, matCube, cube;
+
+    init();
+    animate();
+
+    function init() {
+
+        camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.z = 1000;
+
+        scene = new THREE.Scene();
+
+        geometry = new THREE.SphereGeometry( 400, 20, 20 );
+        material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: false } );
+        sphere = new THREE.Mesh( geometry, material );
+
+        geomCube = new THREE.CubeGeometry( 1000, 1000, 1000 );
+        matCube = new THREE.MeshBasicMaterial( { color: 0x67C8FF, wireframe: false } );
+        cube = new THREE.Mesh( geomCube, matCube);
+
+        scene.add( cube );
+        scene.add( sphere );
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize( window.innerWidth, window.innerHeight );
+
+        document.body.appendChild( renderer.domElement );
+
+    }
+
+    function animate() {
+
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+
+        sphere.rotation.x += 0.01;
+        sphere.rotation.y += 0.01;
+        sphere.rotation.z += 0.01;
+
+        cube.rotation.x += 0.01;
+        //cube.rotation.y += 0.01;
+        cube.rotation.z += 0.01;
+
+        renderer.render( scene, camera );
+
+    }
+
+</script>
+  </body>
+
+</html>
