@@ -9,13 +9,16 @@
     var camera, scene, renderer;
     var geometry, material, sphere;
     var geomCube, matCube, cube;
+    var geomCube2, matCube2, cube2;
+    var direction;
+    var magnitude;
 
     init();
     animate();
 
     function init() {
 
-        camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
 
         scene = new THREE.Scene();
@@ -24,11 +27,17 @@
         material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: false } );
         sphere = new THREE.Mesh( geometry, material );
 
-        geomCube = new THREE.CubeGeometry( 1000, 1000, 1000 );
+        geomCube = new THREE.CubeGeometry( 100, 100, 1000 );
         matCube = new THREE.MeshBasicMaterial( { color: 0x67C8FF, wireframe: false } );
         cube = new THREE.Mesh( geomCube, matCube);
 
+
+        geomCube2 = new THREE.CubeGeometry( 100, 100, 1000 );
+        matCube2 = new THREE.MeshBasicMaterial( { color: 0x67C8FF, wireframe: false } );
+        cube2 = new THREE.Mesh( geomCube2, matCube2);
+
         scene.add( cube );
+        scene.add( cube2 );
         scene.add( sphere );
 
         renderer = new THREE.CanvasRenderer();
@@ -38,6 +47,11 @@
 
     }
 
+    direction = -1;
+    magnitude = 10;
+    cube2.position.x = 0;
+    cube.position.x = 0;
+    var localDir;
     function animate() {
 
         // note: three.js includes requestAnimationFrame shim
@@ -48,8 +62,33 @@
         sphere.rotation.z += 0.01;
 
         cube.rotation.x += 0.01;
-        //cube.rotation.y += 0.01;
+        cube.rotation.y += 0.01;
         cube.rotation.z += 0.01;
+
+        cube2.rotation.x += 0.01;
+        cube2.rotation.y += 0.01;
+        cube2.rotation.z += 0.01;
+
+        if(cube.position.x > 1000){
+          localDir = direction*-1;
+          cube.position.x += (localDir*magnitude);
+        }
+        else{
+          localDir = direction*-1;
+          cube.position.x += (localDir*magnitude);
+        };
+
+        if(cube2.position.x < -1000){
+          direction = 1;
+          cube2.position.x += (direction*magnitude);
+        }
+        else{
+          cube2.position.x += (direction*magnitude);
+        };
+
+        if(cube2.position.x > 0){
+          direction = -1;
+        };
 
         renderer.render( scene, camera );
 
