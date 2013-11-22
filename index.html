@@ -1,10 +1,14 @@
 <html>
   <head>
     <script src="js/three.min.js"></script>
+    <script src="js/physi.js"></script>
+
   </head>
 
   <body>
 <script>
+    Physijs.scripts.worker = 'js/physijs_worker.js';
+    Physijs.scripts.ammo = 'js/ammo.js';
 
     var camera, scene, renderer;
     var geometry, material, sphere;
@@ -21,15 +25,15 @@
         camera = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
 
-        scene = new THREE.Scene();
+        scene = new Physijs.Scene();
 
         geometry = new THREE.SphereGeometry( 400, 20, 20 );
         material = new THREE.MeshBasicMaterial( { color: 0xff0000, wireframe: false } );
-        sphere = new THREE.Mesh( geometry, material );
+        sphere = new Physijs.SphereMesh( geometry, material );
 
         geomCube = new THREE.CubeGeometry( 100, 100, 1000 );
         matCube = new THREE.MeshBasicMaterial( { color: 0x67C8FF, wireframe: false } );
-        cube = new THREE.Mesh( geomCube, matCube);
+        cube = new Physijs.BoxMesh( geomCube, matCube);
 
 
         geomCube2 = new THREE.CubeGeometry( 100, 100, 1000 );
@@ -90,6 +94,7 @@
           direction = -1;
         };
 
+        scene.simulate;
         renderer.render( scene, camera );
 
     }
